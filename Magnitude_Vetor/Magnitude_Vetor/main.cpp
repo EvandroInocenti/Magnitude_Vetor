@@ -72,31 +72,60 @@ void PontoInical(){
 }
 
 void barraProgresso(){
-	GLdouble posX = 0.0, posY = 0.0;
-
-
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glBegin(GL_QUADS);
-	glVertex2d(-300.0f, -300.0f);
-	glVertex2d(-300.0f, 300.0f);
-	glVertex2d(300.0f, 300.0f);
-	glVertex2d(300.0f, -300.0f);
-
+	GLdouble posX = -300.0, posY = -300.0;
+	if (_mouse.GetX() > 0.0){
+		posX = _mouse.GetX();
+		posY = _mouse.GetY();
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex2d(-300.0f, -300.0f);
+		glVertex2d(-300.0f, 300.0f);
+		glVertex2d(posX, 300.0f);
+		glVertex2d(posX, -300.0f);
+	}
+	if (_mouse.GetX() < 0.0){
+		posX = (_mouse.GetX()*-1);
+		posY = (_mouse.GetY()*-1);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex2d(-300.0f, -300.0f);
+		glVertex2d(-300.0f, 300.0f);
+		glVertex2d(posX, 300.0f);
+		glVertex2d(posX, -300.0f);
+	}
+	if (_mouse.GetY() > 0.0){
+		posX = _mouse.GetY();
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex2d(-300.0f, -300.0f);
+		glVertex2d(-300.0f, 300.0f);
+		glVertex2d(posX, 300.0f);
+		glVertex2d(posX, -300.0f);
+	}
+	if (_mouse.GetY() < 0.0){
+		posX = (_mouse.GetY()*-1);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glBegin(GL_QUADS);
+		glVertex2d(-300.0f, -300.0f);
+		glVertex2d(-300.0f, 300.0f);
+		glVertex2d(posX, 300.0f);
+		glVertex2d(posX, -300.0f);
+	}
 	glEnd();
 }
 void desenha() {
 	glClear(GL_COLOR_BUFFER_BIT);
-
+	//viewPort mouse
 	glViewport(0, 30, larguraJanela, alturaJanela);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(margemEsquerda, margemDireita, margemInferior, margemSuperior);
 	PontoInical();
-
+	//viewPort Barra progresso
 	glViewport(0, 0, larguraJanela, 30);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(margemEsquerda, margemDireita, margemInferior, margemSuperior);
+	gluOrtho2D(0, margemDireita, 0, margemSuperior);
 	barraProgresso();
 
 	glutSwapBuffers();
@@ -107,7 +136,7 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(600, 600);
 	glutInitWindowPosition(50, 50);
-	glutCreateWindow("Magnitude Vetor");
+	glutCreateWindow("Gc - Magnitude Vetor");
 	glutDisplayFunc(desenha);
 	glutPassiveMotionFunc(mouse);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
