@@ -53,12 +53,12 @@ Vetor _mouse(0, 0);
 
 void mouse(int x, int y) {
 	_mouse = Vetor(x, y);
-	Vetor canto(300, 270);
+	Vetor canto(300, 267);
 	_mouse.sub(canto);
 	_m = _mouse.mag();
 
-	std::cout << _m << std::endl;
-
+//	std::cout << _m << std::endl;
+	printf("Magnitude mouse %0.1f \n", _m);
 	glutPostRedisplay();
 }
 
@@ -72,62 +72,60 @@ void PontoInical(){
 }
 
 void barraProgresso(){
-	GLdouble posX = -300.0, posY = -300.0;
+	GLdouble posicao;
 	if (_mouse.GetX() > 0.0){
-		posX = _mouse.GetX();
-		posY = _mouse.GetY();
+		posicao = _mouse.GetX();
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glBegin(GL_QUADS);
 		glVertex2d(-300.0f, -300.0f);
 		glVertex2d(-300.0f, 300.0f);
-		glVertex2d(posX, 300.0f);
-		glVertex2d(posX, -300.0f);
+		glVertex2d(posicao, 300.0f);
+		glVertex2d(posicao, -300.0f);
 	}
 	if (_mouse.GetX() < 0.0){
-		posX = (_mouse.GetX()*-1);
-		posY = (_mouse.GetY()*-1);
+		posicao = (_mouse.GetX()*-1);
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glBegin(GL_QUADS);
 		glVertex2d(-300.0f, -300.0f);
 		glVertex2d(-300.0f, 300.0f);
-		glVertex2d(posX, 300.0f);
-		glVertex2d(posX, -300.0f);
+		glVertex2d(posicao, 300.0f);
+		glVertex2d(posicao, -300.0f);
 	}
 	if (_mouse.GetY() > 0.0){
-		posX = _mouse.GetY();
+		posicao = _mouse.GetY();
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glBegin(GL_QUADS);
 		glVertex2d(-300.0f, -300.0f);
 		glVertex2d(-300.0f, 300.0f);
-		glVertex2d(posX, 300.0f);
-		glVertex2d(posX, -300.0f);
+		glVertex2d(posicao, 300.0f);
+		glVertex2d(posicao, -300.0f);
 	}
 	if (_mouse.GetY() < 0.0){
-		posX = (_mouse.GetY()*-1);
+		posicao = (_mouse.GetY()*-1);
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glBegin(GL_QUADS);
 		glVertex2d(-300.0f, -300.0f);
 		glVertex2d(-300.0f, 300.0f);
-		glVertex2d(posX, 300.0f);
-		glVertex2d(posX, -300.0f);
+		glVertex2d(posicao, 300.0f);
+		glVertex2d(posicao, -300.0f);
 	}
 	glEnd();
 }
 void desenha() {
 	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_VIEWPORT);
+
 	//viewPort mouse
-	glViewport(0, 30, larguraJanela, alturaJanela);
+	glViewport(0, 33, larguraJanela, alturaJanela);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(margemEsquerda, margemDireita, margemInferior, margemSuperior);
 	PontoInical();
-	//viewPort Barra progresso
-	glViewport(0, 0, larguraJanela, 30);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0, margemDireita, 0, margemSuperior);
-	barraProgresso();
 
+	//viewPort Barra progresso
+	glViewport(0, 0, _m, 30);
+	barraProgresso();
+	
 	glutSwapBuffers();
 }
 
